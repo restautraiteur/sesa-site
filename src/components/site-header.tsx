@@ -7,6 +7,7 @@ import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@ui/components/ui
 import { useCart } from "@/features/cart/cart-context";
 import { cn } from "@core/lib/utils";
 import { CLIENT, WHATSAPP_URL } from "@/config/client";
+import { CONTACT, FOOTER_TEXT, SERVICES } from "@/features/sesa/content";
 
 const NAV_LINK =
   "rounded-full px-4 py-2 text-sm font-medium text-sidebar-foreground/75 transition-colors hover:text-accent";
@@ -20,6 +21,15 @@ const HOME_SECTIONS = [
   { hash: "entreprises", label: "Entreprises" },
   { hash: "temoignages", label: "Témoignages" },
 ];
+
+/** Pages du site vitrine SESA (reprises de sesa-catering.com). */
+const PAGES = [
+  { to: "/about", label: "À propos" },
+  { to: "/services", label: "Services" },
+  { to: "/cadeaux-entreprise", label: "Cadeaux" },
+  { to: "/portfolio", label: "Portfolio" },
+  { to: "/contact", label: "Contact" },
+] as const;
 
 const FOOTER_TITLE = "font-display text-lg font-bold text-sidebar-foreground";
 const FOOTER_LINK = "text-sidebar-foreground/75 transition-colors hover:text-accent";
@@ -48,15 +58,22 @@ export function SiteHeader({ overlay = false }: { overlay?: boolean }) {
           </span>
         </Link>
         <nav className="flex shrink-0 items-center gap-1">
-          {HOME_SECTIONS.map((section) => (
+          <Link
+            to="/"
+            hash="menu"
+            hashScrollIntoView={{ behavior: "smooth" }}
+            className={cn(NAV_LINK, "hidden px-3 lg:inline-flex")}
+          >
+            Menu
+          </Link>
+          {PAGES.map((page) => (
             <Link
-              key={section.hash}
-              to="/"
-              hash={section.hash}
-              hashScrollIntoView={{ behavior: "smooth" }}
-              className={cn(NAV_LINK, "hidden px-3 lg:inline-flex xl:px-4")}
+              key={page.to}
+              to={page.to}
+              className={cn(NAV_LINK, "hidden px-3 lg:inline-flex")}
+              activeProps={{ className: "text-accent" }}
             >
-              {section.label}
+              {page.label}
             </Link>
           ))}
           {CLIENT.subscriptions && (
@@ -99,7 +116,7 @@ function MobileMenu() {
         <button
           type="button"
           aria-label="Ouvrir le menu"
-          className="ml-1 flex size-10 items-center justify-center rounded-full border border-sidebar-foreground/25 text-sidebar-foreground transition-colors hover:text-accent lg:hidden"
+          className="ml-1 flex size-10 items-center justify-center rounded-full border border-sidebar-foreground/25 text-sidebar-foreground transition-colors hover:text-accent"
         >
           <Menu className="size-5" />
         </button>
@@ -112,7 +129,28 @@ function MobileMenu() {
           {CLIENT.brand}
           <span className="text-accent">.</span>
         </SheetTitle>
-        <nav className="mt-8 flex flex-col gap-1">
+        <nav className="mt-8 flex flex-col gap-1 overflow-y-auto">
+          <Link
+            to="/"
+            onClick={() => setOpen(false)}
+            className={cn(NAV_LINK, "px-3 py-3 text-base")}
+          >
+            Accueil
+          </Link>
+          {PAGES.map((page) => (
+            <Link
+              key={page.to}
+              to={page.to}
+              onClick={() => setOpen(false)}
+              className={cn(NAV_LINK, "px-3 py-3 text-base")}
+              activeProps={{ className: "text-accent" }}
+            >
+              {page.label}
+            </Link>
+          ))}
+          <span className="mt-3 px-3 text-xs font-semibold uppercase tracking-widest text-sidebar-foreground/50">
+            Commander
+          </span>
           {HOME_SECTIONS.map((section) => (
             <Link
               key={section.hash}
@@ -176,14 +214,38 @@ export function SiteFooter() {
             </span>
           </Link>
           <p className="mt-4 max-w-xs text-sm leading-6 text-sidebar-foreground/75">
-            Cuisine sénégalaise faite maison, jus frais et service traiteur pour vos événements à
-            Dakar.
+            {FOOTER_TEXT}
           </p>
+          <div className="mt-4 flex gap-3 text-sm">
+            {CONTACT.socials.map((social) => (
+              <a
+                key={social.label}
+                href={social.href}
+                target="_blank"
+                rel="noreferrer"
+                className={FOOTER_LINK}
+              >
+                {social.label}
+              </a>
+            ))}
+          </div>
         </div>
 
         <div>
           <h2 className={FOOTER_TITLE}>Navigation</h2>
           <ul className="mt-4 space-y-2.5 text-sm">
+            <li>
+              <Link to="/" className={FOOTER_LINK}>
+                Accueil
+              </Link>
+            </li>
+            {PAGES.map((page) => (
+              <li key={page.to}>
+                <Link to={page.to} className={FOOTER_LINK}>
+                  {page.label}
+                </Link>
+              </li>
+            ))}
             {HOME_SECTIONS.map((section) => (
               <li key={section.hash}>
                 <Link
@@ -225,15 +287,42 @@ export function SiteFooter() {
                 WhatsApp : {CLIENT.whatsappDisplay}
               </a>
             </li>
-            <li className="flex items-center gap-2">
-              <MapPin className="size-4 shrink-0 text-accent" aria-hidden="true" />
-              Livraison à {CLIENT.city}
+            {CONTACT.phones.map((phone) => (
+              <li key={phone.tel}>
+                <a href={`tel:${phone.tel}`} className={FOOTER_LINK}>
+                  {phone.display}
+                </a>
+              </li>
+            ))}
+            <li>
+              <a href={`mailto:${CONTACT.email}`} className={FOOTER_LINK}>
+                {CONTACT.email}
+              </a>
+            </li>
+            <li className="flex items-start gap-2">
+              <MapPin className="mt-0.5 size-4 shrink-0 text-accent" aria-hidden="true" />
+              {CONTACT.address.join(", ")}
             </li>
           </ul>
         </div>
 
         <div>
-          <h2 className={FOOTER_TITLE}>Commandes</h2>
+          <h2 className={FOOTER_TITLE}>Services</h2>
+          <ul className="mt-4 space-y-2.5 text-sm">
+            {SERVICES.map((service) => (
+              <li key={service.slug}>
+                <Link to="/services/$slug" params={{ slug: service.slug }} className={FOOTER_LINK}>
+                  {service.title}
+                </Link>
+              </li>
+            ))}
+            <li>
+              <Link to="/cadeaux-entreprise" className={FOOTER_LINK}>
+                Cadeaux Entreprise
+              </Link>
+            </li>
+          </ul>
+          <h2 className={cn(FOOTER_TITLE, "mt-8")}>Commandes</h2>
           <ul className="mt-4 space-y-3 text-sm text-sidebar-foreground/75">
             <li className="flex items-start gap-2">
               <Clock className="mt-0.5 size-4 shrink-0 text-accent" aria-hidden="true" />

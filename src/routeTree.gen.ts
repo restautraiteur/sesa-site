@@ -11,8 +11,14 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AbonnementRouteImport } from './routes/abonnement'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as CadeauxEntrepriseRouteImport } from './routes/cadeaux-entreprise'
 import { Route as CommandeRouteImport } from './routes/commande'
 import { Route as ConfirmationRouteImport } from './routes/confirmation'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as PortfolioRouteImport } from './routes/portfolio'
+import { Route as ServicesIndexRouteImport } from './routes/services.index'
+import { Route as ServicesSlugRouteImport } from './routes/services.$slug'
 import { Route as ApiPublicPaydunyaIpnRouteImport } from './routes/api/public/paydunya-ipn'
 
 const IndexRoute = IndexRouteImport.update({
@@ -25,6 +31,16 @@ const AbonnementRoute = AbonnementRouteImport.update({
   path: '/abonnement',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CadeauxEntrepriseRoute = CadeauxEntrepriseRouteImport.update({
+  id: '/cadeaux-entreprise',
+  path: '/cadeaux-entreprise',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CommandeRoute = CommandeRouteImport.update({
   id: '/commande',
   path: '/commande',
@@ -33,6 +49,26 @@ const CommandeRoute = CommandeRouteImport.update({
 const ConfirmationRoute = ConfirmationRouteImport.update({
   id: '/confirmation',
   path: '/confirmation',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PortfolioRoute = PortfolioRouteImport.update({
+  id: '/portfolio',
+  path: '/portfolio',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicesIndexRoute = ServicesIndexRouteImport.update({
+  id: '/services/',
+  path: '/services/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicesSlugRoute = ServicesSlugRouteImport.update({
+  id: '/services/$slug',
+  path: '/services/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiPublicPaydunyaIpnRoute = ApiPublicPaydunyaIpnRouteImport.update({
@@ -44,23 +80,41 @@ const ApiPublicPaydunyaIpnRoute = ApiPublicPaydunyaIpnRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/abonnement': typeof AbonnementRoute
+  '/about': typeof AboutRoute
+  '/cadeaux-entreprise': typeof CadeauxEntrepriseRoute
   '/commande': typeof CommandeRoute
   '/confirmation': typeof ConfirmationRoute
+  '/contact': typeof ContactRoute
+  '/portfolio': typeof PortfolioRoute
+  '/services/$slug': typeof ServicesSlugRoute
+  '/services/': typeof ServicesIndexRoute
   '/api/public/paydunya-ipn': typeof ApiPublicPaydunyaIpnRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/abonnement': typeof AbonnementRoute
+  '/about': typeof AboutRoute
+  '/cadeaux-entreprise': typeof CadeauxEntrepriseRoute
   '/commande': typeof CommandeRoute
   '/confirmation': typeof ConfirmationRoute
+  '/contact': typeof ContactRoute
+  '/portfolio': typeof PortfolioRoute
+  '/services/$slug': typeof ServicesSlugRoute
+  '/services': typeof ServicesIndexRoute
   '/api/public/paydunya-ipn': typeof ApiPublicPaydunyaIpnRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/abonnement': typeof AbonnementRoute
+  '/about': typeof AboutRoute
+  '/cadeaux-entreprise': typeof CadeauxEntrepriseRoute
   '/commande': typeof CommandeRoute
   '/confirmation': typeof ConfirmationRoute
+  '/contact': typeof ContactRoute
+  '/portfolio': typeof PortfolioRoute
+  '/services/$slug': typeof ServicesSlugRoute
+  '/services/': typeof ServicesIndexRoute
   '/api/public/paydunya-ipn': typeof ApiPublicPaydunyaIpnRoute
 }
 export interface FileRouteTypes {
@@ -68,30 +122,54 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/abonnement'
+    | '/about'
+    | '/cadeaux-entreprise'
     | '/commande'
     | '/confirmation'
+    | '/contact'
+    | '/portfolio'
+    | '/services/$slug'
+    | '/services/'
     | '/api/public/paydunya-ipn'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/abonnement'
+    | '/about'
+    | '/cadeaux-entreprise'
     | '/commande'
     | '/confirmation'
+    | '/contact'
+    | '/portfolio'
+    | '/services/$slug'
+    | '/services'
     | '/api/public/paydunya-ipn'
   id:
     | '__root__'
     | '/'
     | '/abonnement'
+    | '/about'
+    | '/cadeaux-entreprise'
     | '/commande'
     | '/confirmation'
+    | '/contact'
+    | '/portfolio'
+    | '/services/$slug'
+    | '/services/'
     | '/api/public/paydunya-ipn'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AbonnementRoute: typeof AbonnementRoute
+  AboutRoute: typeof AboutRoute
+  CadeauxEntrepriseRoute: typeof CadeauxEntrepriseRoute
   CommandeRoute: typeof CommandeRoute
   ConfirmationRoute: typeof ConfirmationRoute
+  ContactRoute: typeof ContactRoute
+  PortfolioRoute: typeof PortfolioRoute
+  ServicesSlugRoute: typeof ServicesSlugRoute
+  ServicesIndexRoute: typeof ServicesIndexRoute
   ApiPublicPaydunyaIpnRoute: typeof ApiPublicPaydunyaIpnRoute
 }
 
@@ -111,6 +189,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AbonnementRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cadeaux-entreprise': {
+      id: '/cadeaux-entreprise'
+      path: '/cadeaux-entreprise'
+      fullPath: '/cadeaux-entreprise'
+      preLoaderRoute: typeof CadeauxEntrepriseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/commande': {
       id: '/commande'
       path: '/commande'
@@ -123,6 +215,34 @@ declare module '@tanstack/react-router' {
       path: '/confirmation'
       fullPath: '/confirmation'
       preLoaderRoute: typeof ConfirmationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/portfolio': {
+      id: '/portfolio'
+      path: '/portfolio'
+      fullPath: '/portfolio'
+      preLoaderRoute: typeof PortfolioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services/': {
+      id: '/services/'
+      path: '/services'
+      fullPath: '/services/'
+      preLoaderRoute: typeof ServicesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services/$slug': {
+      id: '/services/$slug'
+      path: '/services/$slug'
+      fullPath: '/services/$slug'
+      preLoaderRoute: typeof ServicesSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/public/paydunya-ipn': {
@@ -138,8 +258,14 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AbonnementRoute: AbonnementRoute,
+  AboutRoute: AboutRoute,
+  CadeauxEntrepriseRoute: CadeauxEntrepriseRoute,
   CommandeRoute: CommandeRoute,
   ConfirmationRoute: ConfirmationRoute,
+  ContactRoute: ContactRoute,
+  PortfolioRoute: PortfolioRoute,
+  ServicesSlugRoute: ServicesSlugRoute,
+  ServicesIndexRoute: ServicesIndexRoute,
   ApiPublicPaydunyaIpnRoute: ApiPublicPaydunyaIpnRoute,
 }
 export const routeTree = rootRouteImport

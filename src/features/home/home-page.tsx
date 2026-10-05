@@ -15,6 +15,17 @@ import { ChefHatDivider } from "@/features/home/components/chef-hat-divider";
 import { FoodBackdrop } from "@/features/home/components/food-backdrop";
 import { TrustedCompaniesSection } from "@/features/home/components/trusted-companies-section";
 import { CartBar } from "@/features/cart/components/cart-bar";
+import {
+  AboutTeaser,
+  FinalCta,
+  GiftsSection,
+  RealisationsSection,
+  ReferencesSection,
+  SectorsSection,
+  ServicesGrid,
+  StepsSection,
+  TechPartnerSection,
+} from "@/features/sesa/sections";
 import menuPattern from "@/assets/doodles-aliments.webp";
 
 export function HomePage() {
@@ -23,6 +34,10 @@ export function HomePage() {
       <SiteHeader overlay />
 
       <HeroShowcase />
+
+      {/* Sections reprises de sesa-catering.com (à épurer ensuite) */}
+      <AboutTeaser />
+      <ServicesGrid />
 
       {/* Motif du menu commun au menu et au bandeau abonnement : le bandeau fait partie du menu et
           déborde sur les jus (sa marge négative arrête le motif pile au début des jus). */}
@@ -37,6 +52,18 @@ export function HomePage() {
       </div>
 
       <JuiceSection />
+
+      <SectorsSection />
+
+      <RealisationsSection />
+
+      <ReferencesSection />
+
+      <TechPartnerSection />
+
+      <GiftsSection />
+
+      <StepsSection />
 
       <GalleryMarquee />
 
@@ -53,6 +80,8 @@ export function HomePage() {
       <TrustedCompaniesSection />
 
       <TestimonialsSection />
+
+      <FinalCta />
 
       <CartBar />
       <SiteFooter />
