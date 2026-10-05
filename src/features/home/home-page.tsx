@@ -35,10 +35,6 @@ export function HomePage() {
 
       <HeroShowcase />
 
-      {/* Sections reprises de sesa-catering.com (à épurer ensuite) */}
-      <AboutTeaser />
-      <ServicesGrid />
-
       {/* Motif du menu commun au menu et au bandeau abonnement : le bandeau fait partie du menu et
           déborde sur les jus (sa marge négative arrête le motif pile au début des jus). */}
       <div className="abo-zone relative">
@@ -53,6 +49,13 @@ export function HomePage() {
 
       <JuiceSection />
 
+      <GalleryMarquee />
+
+      {/* Sections reprises de sesa-catering.com (à épurer ensuite) */}
+      <AboutTeaser />
+
+      <ServicesGrid />
+
       <SectorsSection />
 
       <RealisationsSection />
@@ -64,8 +67,6 @@ export function HomePage() {
       <GiftsSection />
 
       <StepsSection />
-
-      <GalleryMarquee />
 
       <CulinaryJourneySection />
 

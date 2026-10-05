@@ -5,13 +5,13 @@ import { HomePage } from "@/features/home/home-page";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Menu de la semaine — Précommande traiteur à Dakar" },
+      { title: "SESA CATERING | Restauration collective, traiteur et restauration rapide à Dakar" },
       {
         name: "description",
         content:
           "Consultez le menu de la semaine, choisissez vos plats et jus, et précommandez en ligne sans créer de compte. Livraison du lundi au vendredi.",
       },
-      { property: "og:title", content: "Menu de la semaine — Précommande traiteur" },
+      { property: "og:title", content: "SESA CATERING — Restauration collective et traiteur à Dakar" },
       {
         property: "og:description",
         content: "Plats et jus disponibles chaque jour. Précommandez en quelques clics.",
