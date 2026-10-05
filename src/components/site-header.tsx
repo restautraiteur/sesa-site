@@ -85,6 +85,15 @@ export function SiteHeader({ overlay = false }: { overlay?: boolean }) {
               Abonnement
             </Link>
           )}
+          {CLIENT.partners && (
+            <Link
+              to="/mes-repas"
+              className={cn(NAV_LINK, "hidden px-3 lg:inline-flex xl:px-4")}
+              activeProps={{ className: "text-accent" }}
+            >
+              Mes repas
+            </Link>
+          )}
           <Link
             to="/commande"
             aria-label={count > 0 ? `Panier (${count} article${count > 1 ? "s" : ""})` : "Panier"}
@@ -171,6 +180,16 @@ function MobileMenu() {
               activeProps={{ className: "text-accent" }}
             >
               Abonnement
+            </Link>
+          )}
+          {CLIENT.partners && (
+            <Link
+              to="/mes-repas"
+              onClick={() => setOpen(false)}
+              className={cn(NAV_LINK, "px-3 py-3 text-base")}
+              activeProps={{ className: "text-accent" }}
+            >
+              Mes repas (entreprises)
             </Link>
           )}
           <Link
@@ -262,6 +281,13 @@ export function SiteFooter() {
               <li>
                 <Link to="/abonnement" className={FOOTER_LINK}>
                   Abonnement
+                </Link>
+              </li>
+            )}
+            {CLIENT.partners && (
+              <li>
+                <Link to="/mes-repas" className={FOOTER_LINK}>
+                  Mes repas (entreprises)
                 </Link>
               </li>
             )}

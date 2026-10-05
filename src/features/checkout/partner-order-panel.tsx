@@ -10,7 +10,7 @@ import type { CartItem } from "@/features/cart/cart-context";
 import { db } from "@core/lib/db";
 import { formatPrice } from "@core/lib/format";
 
-const partnersQuery = () =>
+export const partnersQuery = () =>
   queryOptions({
     queryKey: ["partners", "public"],
     queryFn: async () => {
@@ -137,7 +137,8 @@ export function PartnerOrderPanel({ items, onDone }: { items: CartItem[]; onDone
             <span className="text-lg font-bold">{formatPrice(total)}</span>
           </div>
           <p className="text-xs text-muted-foreground">
-            Rien à payer : livraison à votre entreprise. Votre code vous a été envoyé à
+            Rien à payer : livraison à votre entreprise. Vous pourrez changer ou annuler un plat
+            dans « Mes repas » jusqu'à l'heure limite de chaque jour. Votre code vous a été envoyé à
             l'inscription ; en cas d'oubli, demandez-le à votre responsable.
           </p>
           <Button

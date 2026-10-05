@@ -11,7 +11,10 @@ export const Route = createFileRoute("/")({
         content:
           "Consultez le menu de la semaine, choisissez vos plats et jus, et précommandez en ligne sans créer de compte. Livraison du lundi au vendredi.",
       },
-      { property: "og:title", content: "SESA CATERING — Restauration collective et traiteur à Dakar" },
+      {
+        property: "og:title",
+        content: "SESA CATERING — Restauration collective et traiteur à Dakar",
+      },
       {
         property: "og:description",
         content: "Plats et jus disponibles chaque jour. Précommandez en quelques clics.",
