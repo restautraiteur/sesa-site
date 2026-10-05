@@ -323,7 +323,7 @@
   --card-foreground: #18202e;
   --popover: #ffffff;
   --popover-foreground: #18202e;
-  --primary: #6b4428;
+  --primary: #1f4e8c;
   --primary-foreground: #ffffff;
   --secondary: #eef0f3;
   --secondary-foreground: #18202e;
@@ -333,12 +333,12 @@
   --accent-foreground: #18202e;
   --border: #e3e6eb;
   --input: #d5dae1;
-  --ring: #6b4428;
+  --ring: #1f4e8c;
   --shadow-card: 0 1px 2px rgb(16 24 40 / 0.05);
   /* Teinte de marque pour les fonds d'icônes et l'onglet actif */
-  --brand-tint: #f5ede6;
+  --brand-tint: #e8f1fb;
   /* Brun des graphiques : assez saturé pour ne pas paraître gris (validé) */
-  --brand-chart: #9a5b2e;
+  --brand-chart: #2a8fd6;
 }
 
 .admin-shell h1,
