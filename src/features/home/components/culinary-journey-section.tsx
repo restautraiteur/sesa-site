@@ -1,0 +1,72 @@
+import type { CSSProperties } from "react";
+// EXEMPLE À REMPLACER : photo ou vidéo de la cuisine du restaurant.
+import cuisineImage from "@/assets/cuisine.jpg";
+import decoCrevette from "@/assets/deco-crevette.webp";
+import motifOndule from "@/assets/motif-ondule.webp";
+
+const CUISINES = [
+  "Cuisine sénégalaise",
+  "Saveurs asiatiques",
+  "Grande cuisine européenne",
+  "Menus sur mesure",
+];
+
+export function CulinaryJourneySection() {
+  return (
+    <section className="relative overflow-hidden bg-sidebar text-sidebar-foreground">
+      {/* motif ondulé ton sur ton */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 opacity-[0.06]"
+        style={{ backgroundImage: `url(${motifOndule})`, backgroundSize: "900px" }}
+      />
+      <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-4 py-16 md:grid-cols-[minmax(0,6fr)_minmax(0,6fr)]">
+        <div className="order-first md:order-none">
+          <p className="text-sm font-bold uppercase tracking-widest text-accent">Nos clients</p>
+          <h2 className="mt-3 font-display text-3xl font-bold leading-tight sm:text-4xl">
+            Un voyage culinaire,
+            <span className="block italic text-accent">à chaque commande.</span>
+          </h2>
+          <p className="mt-5 max-w-xl text-sm leading-7 text-sidebar-foreground/80 sm:text-base">
+            Familles, entreprises et événements : nos clients nous confient des plats divers et
+            variés — du thiéboudienne et du poulet yassa aux saveurs asiatiques, en passant par les
+            grandes classiques de la cuisine européenne. Chaque menu est pensé comme un voyage,
+            adapté à vos envies et à l'occasion.
+          </p>
+          <p className="mt-4 max-w-xl text-sm leading-7 text-sidebar-foreground/80 sm:text-base">
+            Dites-nous ce qui vous fait envie : nous composons la table, les jus frais et les
+            quantités, et nous livrons tout prêt à déguster.
+          </p>
+          <div className="mt-7 flex flex-wrap gap-2">
+            {CUISINES.map((item) => (
+              <span
+                key={item}
+                className="rounded-full border border-accent/40 bg-accent/10 px-4 py-1.5 text-xs font-semibold text-accent"
+              >
+                {item}
+              </span>
+            ))}
+          </div>
+        </div>
+        <div className="relative mx-auto w-full max-w-[17rem] sm:max-w-sm md:max-w-md">
+          <div className="absolute -inset-3 rounded-3xl border border-accent/30" />
+          {/* crevette dessinée posée sur le bord droit de la vidéo */}
+          <img
+            src={decoCrevette}
+            alt=""
+            aria-hidden="true"
+            loading="lazy"
+            className="deco-float pointer-events-none absolute -right-12 bottom-10 z-10 w-28 select-none drop-shadow-[0_14px_22px_rgba(0,0,0,0.45)] sm:-right-20 sm:bottom-16 sm:w-48"
+            style={{ "--deco-rotate": "-14deg" } as CSSProperties}
+          />
+          <img
+            src={cuisineImage}
+            alt="En cuisine (photo d'exemple à remplacer)"
+            loading="lazy"
+            className="relative aspect-[9/16] w-full rounded-2xl object-cover shadow-warm"
+          />
+        </div>
+      </div>
+    </section>
+  );
+}
