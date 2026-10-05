@@ -33,7 +33,7 @@ export function SiteHeader({ overlay = false }: { overlay?: boolean }) {
         overlay && "fixed inset-x-0 top-6 h-0 px-4 pt-0 sm:top-10 sm:px-8 sm:pt-0",
       )}
     >
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 rounded-full border-[3px] border-[oklch(0.7_0.08_60)] bg-sidebar p-2.5 text-sidebar-foreground shadow-warm">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 rounded-full border-[3px] border-[oklch(0.63_0.14_243)] bg-sidebar p-2.5 text-sidebar-foreground shadow-warm">
         <Link to="/" className="flex min-w-0 items-center gap-2.5">
           <img
             src={logo}
@@ -43,7 +43,8 @@ export function SiteHeader({ overlay = false }: { overlay?: boolean }) {
             className="size-11 shrink-0 rounded-full bg-white object-cover ring-2 ring-accent/60 sm:size-12"
           />
           <span className="font-display text-xl font-bold tracking-tight text-sidebar-foreground sm:text-2xl">
-            Traiteur<span className="text-accent">.</span>
+            {CLIENT.brand}
+            <span className="text-accent">.</span>
           </span>
         </Link>
         <nav className="flex shrink-0 items-center gap-1">
@@ -58,13 +59,15 @@ export function SiteHeader({ overlay = false }: { overlay?: boolean }) {
               {section.label}
             </Link>
           ))}
-          <Link
-            to="/abonnement"
-            className={cn(NAV_LINK, "hidden px-3 lg:inline-flex xl:px-4")}
-            activeProps={{ className: "text-accent" }}
-          >
-            Abonnement
-          </Link>
+          {CLIENT.subscriptions && (
+            <Link
+              to="/abonnement"
+              className={cn(NAV_LINK, "hidden px-3 lg:inline-flex xl:px-4")}
+              activeProps={{ className: "text-accent" }}
+            >
+              Abonnement
+            </Link>
+          )}
           <Link
             to="/commande"
             aria-label={count > 0 ? `Panier (${count} article${count > 1 ? "s" : ""})` : "Panier"}
@@ -106,7 +109,8 @@ function MobileMenu() {
         className="w-72 border-sidebar-border bg-sidebar text-sidebar-foreground [&>button]:text-sidebar-foreground"
       >
         <SheetTitle className="font-display text-2xl font-bold text-sidebar-foreground">
-          Traiteur<span className="text-accent">.</span>
+          {CLIENT.brand}
+          <span className="text-accent">.</span>
         </SheetTitle>
         <nav className="mt-8 flex flex-col gap-1">
           {HOME_SECTIONS.map((section) => (
@@ -121,14 +125,16 @@ function MobileMenu() {
               {section.label}
             </Link>
           ))}
-          <Link
-            to="/abonnement"
-            onClick={() => setOpen(false)}
-            className={cn(NAV_LINK, "px-3 py-3 text-base")}
-            activeProps={{ className: "text-accent" }}
-          >
-            Abonnement
-          </Link>
+          {CLIENT.subscriptions && (
+            <Link
+              to="/abonnement"
+              onClick={() => setOpen(false)}
+              className={cn(NAV_LINK, "px-3 py-3 text-base")}
+              activeProps={{ className: "text-accent" }}
+            >
+              Abonnement
+            </Link>
+          )}
           <Link
             to="/commande"
             onClick={() => setOpen(false)}
@@ -165,7 +171,8 @@ export function SiteFooter() {
               className="size-14 rounded-full bg-white object-cover ring-2 ring-accent/60"
             />
             <span className="font-display text-2xl font-bold tracking-tight">
-              Traiteur<span className="text-accent">.</span>
+              {CLIENT.brand}
+              <span className="text-accent">.</span>
             </span>
           </Link>
           <p className="mt-4 max-w-xs text-sm leading-6 text-sidebar-foreground/75">
@@ -189,11 +196,13 @@ export function SiteFooter() {
                 </Link>
               </li>
             ))}
-            <li>
-              <Link to="/abonnement" className={FOOTER_LINK}>
-                Abonnement
-              </Link>
-            </li>
+            {CLIENT.subscriptions && (
+              <li>
+                <Link to="/abonnement" className={FOOTER_LINK}>
+                  Abonnement
+                </Link>
+              </li>
+            )}
             <li>
               <Link to="/commande" className={FOOTER_LINK}>
                 Panier
