@@ -21,6 +21,8 @@ export const CLIENT = {
   subscriptions: false,
   /** Module « Entreprises partenaires » : les employés enrôlés commandent, facturé à leur entreprise. */
   partners: true,
+  /** Livraisons individuelles (adresse + paiement). false = commandes entreprises uniquement. */
+  individualOrders: false,
 } as const;
 
 /** Lien WhatsApp du restaurant. */

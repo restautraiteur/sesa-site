@@ -85,7 +85,7 @@ export const SERVICES: Service[] = [
     summary:
       "Gestion quotidienne pour entreprises, sites industriels, bases-vie et chantiers. Menus équilibrés, service régulier et respect strict des normes sanitaires.",
     cta: "Découvrir l'offre",
-    image: real6,
+    image: real9,
     page: {
       eyebrow: "Une restauration pensée pour vos équipes",
       title: "Restauration Collective Dakar",
@@ -118,7 +118,7 @@ export const SERVICES: Service[] = [
     summary:
       "Cocktails, buffets, déjeuners d'affaires, pauses-café et réceptions officielles. Des prestations sur mesure adaptées à chaque événement.",
     cta: "En savoir plus",
-    image: real3,
+    image: real5,
     page: {
       eyebrow: "Vos Événements, Notre Savoir-Faire",
       title: "Service Traiteur Dakar",
@@ -151,7 +151,7 @@ export const SERVICES: Service[] = [
     summary:
       "Une offre pratique, rapide et savoureuse : sandwichs gourmets, burgers, salades fraîches, plats à emporter et formules déjeuner adaptées.",
     cta: "Découvrir les formules",
-    image: real5,
+    image: real8,
     page: {
       eyebrow: "Une offre pratique, rapide et accessible",
       title: "Restauration Rapide Dakar",
@@ -211,7 +211,7 @@ export const SERVICES: Service[] = [
     summary:
       "Sublimez vos plus beaux moments privés avec des buffets spectaculaires, un service d'exception et une cuisine raffinée.",
     cta: "Découvrir",
-    image: real1,
+    image: real4,
     page: {
       eyebrow: "Mariages & Célébrations",
       title: "Traiteur Mariage Dakar",
@@ -273,14 +273,13 @@ export const REFERENCES = [
 /* ------------------------------ Réalisations ----------------------------- */
 
 export const REALISATIONS = [
-  { title: "Buffet & Présentation", image: real3 },
   { title: "Service Traiteur", image: real4 },
   { title: "Détails Gourmands", image: real5 },
   { title: "Restauration & Accueil", image: real6 },
   { title: "Mise en Place", image: real7 },
   { title: "Ambiance", image: real8 },
   { title: "Gastronomie", image: real9 },
-  { title: "Service à Table", image: real1 },
+  { title: "Buffet & Présentation", image: real1 },
   { title: "Excellence", image: real2 },
 ];
 

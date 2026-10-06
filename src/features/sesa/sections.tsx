@@ -333,7 +333,7 @@ export function RealisationsSection({ full = false }: { full?: boolean }) {
 export function ReferencesSection() {
   const row = [...REFERENCES, ...REFERENCES];
   return (
-    <section className="border-y border-border/60 bg-card py-14">
+    <section id="references" className="scroll-mt-24 border-y border-border/60 bg-card py-14">
       <div className="mx-auto max-w-6xl px-4 pb-8">
         <SectionHead eyebrow="Nos Références" title="Ils nous ont fait confiance" />
       </div>

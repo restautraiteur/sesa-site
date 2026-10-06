@@ -17,9 +17,7 @@ const NAV_LINK =
 const HOME_SECTIONS = [
   { hash: "menu", label: "Menu" },
   { hash: "jus", label: "Jus" },
-  { hash: "traiteur", label: "Traiteur" },
-  { hash: "entreprises", label: "Entreprises" },
-  { hash: "temoignages", label: "Témoignages" },
+  { hash: "references", label: "Références" },
 ];
 
 /** Pages du site vitrine SESA (reprises de sesa-catering.com). */
@@ -83,15 +81,6 @@ export function SiteHeader({ overlay = false }: { overlay?: boolean }) {
               activeProps={{ className: "text-accent" }}
             >
               Abonnement
-            </Link>
-          )}
-          {CLIENT.partners && (
-            <Link
-              to="/mes-repas"
-              className={cn(NAV_LINK, "hidden px-3 lg:inline-flex xl:px-4")}
-              activeProps={{ className: "text-accent" }}
-            >
-              Mes repas
             </Link>
           )}
           <Link
@@ -180,16 +169,6 @@ function MobileMenu() {
               activeProps={{ className: "text-accent" }}
             >
               Abonnement
-            </Link>
-          )}
-          {CLIENT.partners && (
-            <Link
-              to="/mes-repas"
-              onClick={() => setOpen(false)}
-              className={cn(NAV_LINK, "px-3 py-3 text-base")}
-              activeProps={{ className: "text-accent" }}
-            >
-              Mes repas (entreprises)
             </Link>
           )}
           <Link
@@ -284,13 +263,6 @@ export function SiteFooter() {
                 </Link>
               </li>
             )}
-            {CLIENT.partners && (
-              <li>
-                <Link to="/mes-repas" className={FOOTER_LINK}>
-                  Mes repas (entreprises)
-                </Link>
-              </li>
-            )}
             <li>
               <Link to="/commande" className={FOOTER_LINK}>
                 Panier
@@ -352,9 +324,15 @@ export function SiteFooter() {
           <ul className="mt-4 space-y-3 text-sm text-sidebar-foreground/75">
             <li className="flex items-start gap-2">
               <Clock className="mt-0.5 size-4 shrink-0 text-accent" aria-hidden="true" />
-              Précommandes du lundi au vendredi
+              {CLIENT.individualOrders
+                ? "Précommandes du lundi au vendredi"
+                : "Entreprises partenaires : livraison sur site du lundi au vendredi"}
             </li>
-            <li>Paiement sécurisé : Wave, Orange Money, Free Money ou carte.</li>
+            <li>
+              {CLIENT.individualOrders
+                ? "Paiement sécurisé : Wave, Orange Money, Free Money ou carte."
+                : "Rien à payer pour les employés : facture mensuelle à l'entreprise."}
+            </li>
           </ul>
         </div>
       </div>

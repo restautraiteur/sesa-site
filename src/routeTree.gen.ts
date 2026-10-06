@@ -16,7 +16,6 @@ import { Route as CadeauxEntrepriseRouteImport } from './routes/cadeaux-entrepri
 import { Route as CommandeRouteImport } from './routes/commande'
 import { Route as ConfirmationRouteImport } from './routes/confirmation'
 import { Route as ContactRouteImport } from './routes/contact'
-import { Route as MesRepasRouteImport } from './routes/mes-repas'
 import { Route as PortfolioRouteImport } from './routes/portfolio'
 import { Route as ServicesIndexRouteImport } from './routes/services.index'
 import { Route as ServicesSlugRouteImport } from './routes/services.$slug'
@@ -57,11 +56,6 @@ const ContactRoute = ContactRouteImport.update({
   path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
-const MesRepasRoute = MesRepasRouteImport.update({
-  id: '/mes-repas',
-  path: '/mes-repas',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const PortfolioRoute = PortfolioRouteImport.update({
   id: '/portfolio',
   path: '/portfolio',
@@ -91,7 +85,6 @@ export interface FileRoutesByFullPath {
   '/commande': typeof CommandeRoute
   '/confirmation': typeof ConfirmationRoute
   '/contact': typeof ContactRoute
-  '/mes-repas': typeof MesRepasRoute
   '/portfolio': typeof PortfolioRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/services/': typeof ServicesIndexRoute
@@ -105,7 +98,6 @@ export interface FileRoutesByTo {
   '/commande': typeof CommandeRoute
   '/confirmation': typeof ConfirmationRoute
   '/contact': typeof ContactRoute
-  '/mes-repas': typeof MesRepasRoute
   '/portfolio': typeof PortfolioRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/services': typeof ServicesIndexRoute
@@ -120,7 +112,6 @@ export interface FileRoutesById {
   '/commande': typeof CommandeRoute
   '/confirmation': typeof ConfirmationRoute
   '/contact': typeof ContactRoute
-  '/mes-repas': typeof MesRepasRoute
   '/portfolio': typeof PortfolioRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/services/': typeof ServicesIndexRoute
@@ -136,7 +127,6 @@ export interface FileRouteTypes {
     | '/commande'
     | '/confirmation'
     | '/contact'
-    | '/mes-repas'
     | '/portfolio'
     | '/services/$slug'
     | '/services/'
@@ -150,7 +140,6 @@ export interface FileRouteTypes {
     | '/commande'
     | '/confirmation'
     | '/contact'
-    | '/mes-repas'
     | '/portfolio'
     | '/services/$slug'
     | '/services'
@@ -164,7 +153,6 @@ export interface FileRouteTypes {
     | '/commande'
     | '/confirmation'
     | '/contact'
-    | '/mes-repas'
     | '/portfolio'
     | '/services/$slug'
     | '/services/'
@@ -179,7 +167,6 @@ export interface RootRouteChildren {
   CommandeRoute: typeof CommandeRoute
   ConfirmationRoute: typeof ConfirmationRoute
   ContactRoute: typeof ContactRoute
-  MesRepasRoute: typeof MesRepasRoute
   PortfolioRoute: typeof PortfolioRoute
   ServicesSlugRoute: typeof ServicesSlugRoute
   ServicesIndexRoute: typeof ServicesIndexRoute
@@ -237,13 +224,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/mes-repas': {
-      id: '/mes-repas'
-      path: '/mes-repas'
-      fullPath: '/mes-repas'
-      preLoaderRoute: typeof MesRepasRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/portfolio': {
       id: '/portfolio'
       path: '/portfolio'
@@ -283,7 +263,6 @@ const rootRouteChildren: RootRouteChildren = {
   CommandeRoute: CommandeRoute,
   ConfirmationRoute: ConfirmationRoute,
   ContactRoute: ContactRoute,
-  MesRepasRoute: MesRepasRoute,
   PortfolioRoute: PortfolioRoute,
   ServicesSlugRoute: ServicesSlugRoute,
   ServicesIndexRoute: ServicesIndexRoute,

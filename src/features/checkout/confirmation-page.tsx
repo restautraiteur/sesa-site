@@ -140,15 +140,6 @@ export function ConfirmationPage() {
                 Facturé à {order.partner} : rien à payer. Livraison à votre entreprise.
               </p>
             )}
-            {order.partner && (
-              <p className="mt-2 text-sm text-muted-foreground">
-                Besoin de changer ? Dans{" "}
-                <Link to="/mes-repas" className="font-semibold text-primary underline">
-                  Mes repas
-                </Link>
-                , changez de plat ou annulez un jour jusqu'à l'heure limite.
-              </p>
-            )}
             {order.pay_on_delivery && (
               <p className="mt-2 rounded-lg bg-amber-50 p-3 text-sm font-medium text-amber-900">
                 À payer à la livraison : {formatPrice(order.total)} (espèces ou Wave au livreur).

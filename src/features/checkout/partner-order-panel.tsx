@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import { useMutation, useQuery, queryOptions } from "@tanstack/react-query";
-import { Building2 } from "lucide-react";
+import { Building2, CheckCircle2 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@ui/components/ui/button";
 import { Input } from "@ui/components/ui/input";
 import { Label } from "@ui/components/ui/label";
 import type { CartItem } from "@/features/cart/cart-context";
 import { db } from "@core/lib/db";
-import { formatPrice } from "@core/lib/format";
+import { formatDay, formatPrice } from "@core/lib/format";
 
 export const partnersQuery = () =>
   queryOptions({
@@ -21,25 +21,33 @@ export const partnersQuery = () =>
   });
 
 /**
- * Commande d'un employé d'entreprise partenaire : il choisit son entreprise, saisit son téléphone et
- * son code. Pas de compte, pas d'adresse (livraison à l'entreprise), pas de paiement.
+ * Récapitulatif d'une commande entreprise : l'employé choisit son entreprise partenaire, donne son
+ * nom et son téléphone, et valide. Rien à payer : livraison avec ses collègues, facturé à l'entreprise.
  */
 export function PartnerOrderPanel({ items, onDone }: { items: CartItem[]; onDone: () => void }) {
   const navigate = useNavigate();
   const { data: partners = [] } = useQuery(partnersQuery());
   const [partnerId, setPartnerId] = useState("");
+  const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
-  const [pin, setPin] = useState("");
   const total = items.reduce((s, i) => s + i.price * i.quantity, 0);
   const partner = partners.find((p) => p.id === partnerId);
-  const valid = !!partnerId && phone.replace(/\D/g, "").length >= 7 && /^\d{4}$/.test(pin);
+  const valid = !!partnerId && fullName.trim().length >= 2 && phone.replace(/\D/g, "").length >= 7;
+
+  // Plats classés par jour (les jus, sans jour, à la fin).
+  const byDay = new Map<string, CartItem[]>();
+  for (const item of items) {
+    const key = item.day_date ?? "";
+    byDay.set(key, [...(byDay.get(key) ?? []), item]);
+  }
+  const days = [...byDay].sort(([a], [b]) => (a || "9999").localeCompare(b || "9999"));
 
   const order = useMutation({
     mutationFn: async () => {
-      const { data, error } = await db.rpc("place_partner_order", {
+      const { data, error } = await db.rpc("place_partner_order_simple", {
         p_partner: partnerId,
+        p_full_name: fullName,
         p_phone: phone,
-        p_pin: pin,
         p_items: items.map((i) =>
           i.source === "jus"
             ? { variant_id: i.id, quantity: i.quantity }
@@ -81,25 +89,55 @@ export function PartnerOrderPanel({ items, onDone }: { items: CartItem[]; onDone
   });
 
   return (
-    <section className="surface-card space-y-4 p-4 sm:p-6">
-      <h2 className="flex items-center gap-2 font-display text-lg font-bold text-primary">
-        <Building2 className="size-5" /> Commande entreprise
-      </h2>
+    <div className="surface-card space-y-5 p-5 sm:p-7">
+      <h2 className="font-display text-2xl font-bold text-primary">Récapitulatif</h2>
+
+      <ul className="space-y-3">
+        {days.map(([day, dayItems]) => (
+          <li key={day || "jus"} className="rounded-xl bg-muted/40 p-3">
+            <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+              {day ? formatDay(day) : "Jus"}
+            </p>
+            <ul className="mt-1.5 space-y-1">
+              {dayItems.map((item) => (
+                <li key={item.id} className="flex justify-between gap-3 text-sm">
+                  <span>
+                    {item.quantity > 1 ? `${item.quantity} × ` : ""}
+                    {item.name}
+                  </span>
+                  <span className="shrink-0 text-muted-foreground">
+                    {formatPrice(item.price * item.quantity)}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </li>
+        ))}
+      </ul>
+
       {partners.length === 0 ? (
-        <p className="text-sm text-muted-foreground">
+        <p className="rounded-lg bg-muted/50 p-3 text-sm text-muted-foreground">
           Aucune entreprise partenaire pour le moment.
         </p>
       ) : (
-        <>
+        <form
+          className="space-y-4"
+          onSubmit={(e) => {
+            e.preventDefault();
+            if (valid && !order.isPending) order.mutate();
+          }}
+        >
           <div className="space-y-2">
-            <Label htmlFor="po-partner">Votre entreprise</Label>
+            <Label htmlFor="po-partner" className="flex items-center gap-2">
+              <Building2 className="size-4 text-primary" /> Votre entreprise partenaire
+            </Label>
             <select
               id="po-partner"
               className="h-11 w-full rounded-md border border-input bg-background px-3 text-sm"
               value={partnerId}
               onChange={(e) => setPartnerId(e.target.value)}
             >
-              <option value="">Choisir…</option>
+              <option value="">Choisir votre entreprise…</option>
               {partners.map((p) => (
                 <option key={p.id} value={p.id}>
                   {p.name}
@@ -107,50 +145,48 @@ export function PartnerOrderPanel({ items, onDone }: { items: CartItem[]; onDone
               ))}
             </select>
           </div>
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div className="space-y-2">
-              <Label htmlFor="po-phone">Votre téléphone</Label>
-              <Input
-                id="po-phone"
-                inputMode="tel"
-                autoComplete="tel"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-              />
+          <div className="space-y-2">
+            <Label htmlFor="po-name">Nom et prénom</Label>
+            <Input
+              id="po-name"
+              autoComplete="name"
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="po-phone">Téléphone</Label>
+            <Input
+              id="po-phone"
+              inputMode="tel"
+              autoComplete="tel"
+              placeholder="77 000 00 00"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+            />
+          </div>
+
+          <div className="space-y-1 border-t border-border pt-4">
+            <div className="flex items-baseline justify-between">
+              <span className="text-sm text-muted-foreground">
+                {partner ? `Facturé à ${partner.name}` : "Facturé à votre entreprise"}
+              </span>
+              <span className="text-lg font-semibold">{formatPrice(total)}</span>
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="po-pin">Votre code</Label>
-              <Input
-                id="po-pin"
-                inputMode="numeric"
-                maxLength={4}
-                placeholder="4 chiffres"
-                value={pin}
-                onChange={(e) => setPin(e.target.value.replace(/\D/g, ""))}
-              />
+            <div className="flex items-center justify-between text-2xl font-bold">
+              <span>À payer</span>
+              <span className="text-success">0 FCFA</span>
             </div>
           </div>
-          <div className="flex items-baseline justify-between rounded-lg bg-muted/50 p-3">
-            <span className="text-sm">
-              {partner ? `Facturé à ${partner.name}` : "Facturé à votre entreprise"}
-            </span>
-            <span className="text-lg font-bold">{formatPrice(total)}</span>
-          </div>
-          <p className="text-xs text-muted-foreground">
-            Rien à payer : livraison à votre entreprise. Vous pourrez changer ou annuler un plat
-            dans « Mes repas » jusqu'à l'heure limite de chaque jour. Votre code vous a été envoyé à
-            l'inscription ; en cas d'oubli, demandez-le à votre responsable.
+          <p className="flex gap-2 rounded-lg bg-success/10 p-3 text-sm text-success">
+            <CheckCircle2 className="mt-0.5 size-4 shrink-0" />
+            Rien à payer : vos repas sont livrés à votre entreprise avec ceux de vos collègues.
           </p>
-          <Button
-            className="w-full"
-            size="lg"
-            disabled={!valid || order.isPending}
-            onClick={() => order.mutate()}
-          >
+          <Button type="submit" className="w-full" size="lg" disabled={!valid || order.isPending}>
             {order.isPending ? "Validation…" : "Valider ma commande"}
           </Button>
-        </>
+        </form>
       )}
-    </section>
+    </div>
   );
 }

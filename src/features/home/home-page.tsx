@@ -4,16 +4,7 @@ import { SiteFooter, SiteHeader } from "@/components/site-header";
 import { HeroShowcase } from "@/features/home/components/hero-showcase";
 import { WeeklyMenu } from "@/features/menu/components/weekly-menu";
 import { JuiceSection } from "@/features/juices/components/juice-section";
-import { SubscriptionCta } from "@/features/subscriptions/subscription-cta";
-import { TestimonialsSection } from "@/features/home/components/testimonials-section";
 import { GalleryMarquee } from "@/features/home/components/gallery-marquee";
-import { CulinaryJourneySection } from "@/features/home/components/culinary-journey-section";
-import { BestSellerSection } from "@/features/home/components/best-seller-section";
-import { ChefSection } from "@/features/home/components/chef-section";
-import { CateringEventsSection } from "@/features/home/components/catering-section";
-import { ChefHatDivider } from "@/features/home/components/chef-hat-divider";
-import { FoodBackdrop } from "@/features/home/components/food-backdrop";
-import { TrustedCompaniesSection } from "@/features/home/components/trusted-companies-section";
 import { CartBar } from "@/features/cart/components/cart-bar";
 import {
   AboutTeaser,
@@ -44,14 +35,12 @@ export function HomePage() {
           style={{ backgroundImage: `url(${menuPattern})`, backgroundSize: "520px" }}
         />
         <WeeklyMenu />
-        <SubscriptionCta />
       </div>
 
       <JuiceSection />
 
       <GalleryMarquee />
 
-      {/* Sections reprises de sesa-catering.com (à épurer ensuite) */}
       <AboutTeaser />
 
       <ServicesGrid />
@@ -67,20 +56,6 @@ export function HomePage() {
       <GiftsSection />
 
       <StepsSection />
-
-      <CulinaryJourneySection />
-
-      <BestSellerSection />
-
-      <FoodBackdrop>
-        <ChefSection />
-        <ChefHatDivider />
-        <CateringEventsSection />
-      </FoodBackdrop>
-
-      <TrustedCompaniesSection />
-
-      <TestimonialsSection />
 
       <FinalCta />
 

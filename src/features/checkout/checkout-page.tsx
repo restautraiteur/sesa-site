@@ -50,7 +50,10 @@ export function CheckoutPage() {
   const { data: juices } = useQuery(juiceCatalogQuery());
   const [accepted, setAccepted] = useState(false);
   // Employé d'une entreprise partenaire : commande facturée à l'entreprise (pas de livraison à saisir, pas de paiement).
-  const [partnerMode, setPartnerMode] = useState(false);
+  // Sans livraisons individuelles (CLIENT.individualOrders = false), toutes les commandes sont des
+  // commandes entreprise.
+  const partnerOnly = CLIENT.partners && !CLIENT.individualOrders;
+  const [partnerMode, setPartnerMode] = useState<boolean>(partnerOnly);
   // Commande du jour uniquement : le client peut payer à la livraison (les précommandes gardent l'acompte).
   const [payMode, setPayMode] = useState<"en_ligne" | "livraison">("en_ligne");
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -312,9 +315,13 @@ export function CheckoutPage() {
         />
         <div className="relative mx-auto max-w-5xl px-4 pb-24 pt-36 sm:pt-44">
           <p className="text-xs font-bold uppercase tracking-widest text-accent">Commande</p>
-          <h1 className="mt-2 font-display text-4xl font-bold sm:text-5xl">Ma précommande</h1>
+          <h1 className="mt-2 font-display text-4xl font-bold sm:text-5xl">
+            {partnerOnly ? "Mon panier" : "Ma précommande"}
+          </h1>
           <p className="mt-2 max-w-xl text-sm text-sidebar-foreground/80">
-            Vérifiez vos plats, ajoutez un jus si le cœur vous en dit, puis indiquez où livrer.
+            {partnerOnly
+              ? "Vérifiez vos plats jour par jour, choisissez votre entreprise partenaire et validez : rien à payer."
+              : "Vérifiez vos plats, ajoutez un jus si le cœur vous en dit, puis indiquez où livrer."}
           </p>
         </div>
       </section>
@@ -400,25 +407,50 @@ export function CheckoutPage() {
                   </div>
                 )}
 
-                {CLIENT.partners && (
-                  <label className="surface-card flex cursor-pointer items-center gap-3 p-4">
-                    <Checkbox
-                      checked={partnerMode}
-                      onCheckedChange={(checked) => setPartnerMode(checked === true)}
-                    />
-                    <span>
-                      <span className="block font-semibold">Je commande pour mon entreprise</span>
-                      <span className="block text-sm text-muted-foreground">
-                        Employé d'une entreprise partenaire : votre repas est facturé à votre
-                        entreprise.
-                      </span>
-                    </span>
-                  </label>
+                {CLIENT.partners && !partnerOnly && (
+                  <section className="surface-card space-y-3 p-4">
+                    <h2 className="font-display text-lg font-bold text-primary">Livraison</h2>
+                    <div
+                      role="radiogroup"
+                      aria-label="Type de livraison"
+                      className="grid gap-3 sm:grid-cols-2"
+                    >
+                      {(
+                        [
+                          [
+                            true,
+                            "Mon entreprise est partenaire",
+                            "Livré avec mes collègues, facturé à l'entreprise : rien à payer.",
+                          ],
+                          [
+                            false,
+                            "Livraison individuelle",
+                            "À l'adresse de votre choix, paiement en ligne ou à la livraison.",
+                          ],
+                        ] as const
+                      ).map(([value, title, text]) => (
+                        <button
+                          key={title}
+                          type="button"
+                          role="radio"
+                          aria-checked={partnerMode === value}
+                          onClick={() => setPartnerMode(value)}
+                          className={cn(
+                            "rounded-xl border p-4 text-left transition-colors",
+                            partnerMode === value
+                              ? "border-primary bg-primary/5 ring-1 ring-primary"
+                              : "border-border hover:border-primary/50",
+                          )}
+                        >
+                          <span className="block font-semibold">{title}</span>
+                          <span className="mt-1 block text-sm text-muted-foreground">{text}</span>
+                        </button>
+                      ))}
+                    </div>
+                  </section>
                 )}
 
-                {partnerMode ? (
-                  <PartnerOrderPanel items={items} onDone={clear} />
-                ) : (
+                {partnerMode ? null : (
                   <>
                     <section className="surface-card space-y-4 p-4">
                       <h2 className="font-display text-lg font-bold text-primary">
@@ -558,6 +590,11 @@ export function CheckoutPage() {
                 )}
               </div>
 
+              {partnerMode && (
+                <aside className="lg:sticky lg:top-24 lg:self-start">
+                  <PartnerOrderPanel items={items} onDone={clear} />
+                </aside>
+              )}
               {!partnerMode && (
                 <aside className="lg:sticky lg:top-24 lg:self-start">
                   <div className="surface-card space-y-5 p-5 sm:p-7">
