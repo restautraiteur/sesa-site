@@ -6,6 +6,7 @@ import { WeeklyMenu } from "@/features/menu/components/weekly-menu";
 import { JuiceSection } from "@/features/juices/components/juice-section";
 import { GalleryMarquee } from "@/features/home/components/gallery-marquee";
 import { CartBar } from "@/features/cart/components/cart-bar";
+import { PartnerCta } from "@/features/sesa/partner-cta";
 import {
   AboutTeaser,
   FinalCta,
@@ -35,6 +36,7 @@ export function HomePage() {
           style={{ backgroundImage: `url(${menuPattern})`, backgroundSize: "520px" }}
         />
         <WeeklyMenu />
+        <PartnerCta />
       </div>
 
       <JuiceSection />
