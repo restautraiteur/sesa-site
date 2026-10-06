@@ -15,7 +15,7 @@ const NAV_LINK =
 /** `overlay` : la barre est posée en haut, à l'intérieur du visuel d'en-tête (accueil). */
 /** Liens vers les sections de la page d'accueil (ancres `id` sur chaque section). */
 const HOME_SECTIONS = [
-  { hash: "menu", label: "Menu" },
+  { hash: "menu", label: "Menu de la semaine" },
   { hash: "jus", label: "Jus" },
   { hash: "references", label: "Références" },
 ];
@@ -57,12 +57,11 @@ export function SiteHeader({ overlay = false }: { overlay?: boolean }) {
         </Link>
         <nav className="flex shrink-0 items-center gap-1">
           <Link
-            to="/"
-            hash="menu"
-            hashScrollIntoView={{ behavior: "smooth" }}
+            to="/menus"
             className={cn(NAV_LINK, "hidden px-3 lg:inline-flex")}
+            activeProps={{ className: "text-accent" }}
           >
-            Menu
+            Menus
           </Link>
           {PAGES.map((page) => (
             <Link
@@ -149,6 +148,14 @@ function MobileMenu() {
           <span className="mt-3 px-3 text-xs font-semibold uppercase tracking-widest text-sidebar-foreground/50">
             Commander
           </span>
+          <Link
+            to="/menus"
+            onClick={() => setOpen(false)}
+            className={cn(NAV_LINK, "px-3 py-3 text-base")}
+            activeProps={{ className: "text-accent" }}
+          >
+            Menus du mois
+          </Link>
           {HOME_SECTIONS.map((section) => (
             <Link
               key={section.hash}
@@ -244,6 +251,11 @@ export function SiteFooter() {
                 </Link>
               </li>
             ))}
+            <li>
+              <Link to="/menus" className={FOOTER_LINK}>
+                Menus du mois
+              </Link>
+            </li>
             {HOME_SECTIONS.map((section) => (
               <li key={section.hash}>
                 <Link
